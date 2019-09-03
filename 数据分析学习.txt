@@ -1,0 +1,79 @@
+numpy as np（矩阵的基本变换操作）
+切片、分割、变换、筛选、复制：
+data=np.array([])赋值ndarray格式，dtype查看格式
+行列切片[行，列]切片后可坐独立筛选
+np.hstack/vstack行/列对接拼(相当于concatenate(axis=0/1)  np.hsplit/split(data,n)纵/横切平均分割三份（或后面加axis=1也是纵切）  np.hsplit/split(data,(x,y,z))纵/横切指定位置
+布尔筛选data[data==x]，data[data[:,1]==25]返回匹配的真实值,可用&|!<>
+np.where(cond,true_data,false_data)√选data1中的值，×选data2中的值，可嵌套
+np.astype(float/int/string)转类型/ravel拉平矩阵/floor向下取整数/T转置/reshape(3,-1)自动计算列默认除数
+b = a同指针复制  c=a.view()浅复制（指针不同值不独立） d=a.copy(指针不同值独立)
+
+创造、赋值：
+np.arange(n).reshape(行,列)造数列   data.shape/size/ndim/dtype.name  形状、大小、维度、格式
+np.zeros[(行,列)]/ones[(行,列)]/empty[(行，列),数据类型]/eye[(规模,k=n,数据类型)]  造0，1，空，对角矩阵（n大于0上方第n条线为1，n小于0下方第n条线为1）
+np.random.random/randint(start,end,step)/randn(行,列)/normal（均值，方差，size=（行，列））/uniform（start，end，size=（行，列））/poisson（lambda，size=（行，列））生成随机数（01内、整数、标准正态分布、正态分布、均匀分布、泊松分布）
+np.linespace(0,100,200)在0-100中取间隔相等的200个数
+np.tile(a,(x,y))行扩展x倍，y扩展y倍
+
+运算：
+np数列间的 加减乘除平方   data.dot(data)或np.dot(data,data)矩阵点乘
+np.min/max/sum(axis=0/1行列)/mean/std/cumsum累积每行求和/unique(去重返回所有唯一值)/sort
+np.sin/cos/tan/exp/sqrt/abs/modf(个位+小数第一位)
+np.data.argmax(axis=0)每列最大值的位置
+data[np.data.argmax(axis=0),range(data.shape[1])]先找列最大值位置，再找位置对应的值
+np.argsort(data)数列中从小到大的位置
+data[np.argsort](data)]数列从小到大排序
+permutation(随机行间排序行内不变)/shuffle（永久随机行间排序行内不变无返回值）
+
+
+pandas as pd
+pd.read_csv('路径').head/tail(n)取头/尾n行/columns取表头/shape显示规模/loc[n]取第n行所有数字/[列名]取列
+df.columns.tolist()把表头变为数列
+
+DataFrame({}).append({},ignore_index=True)忽略索引值新增行
+df['xx']=[]新增并赋值列   df.loc['yy']=[]新增并赋值行
+
+按列名分组
+df['xx'].gruopby(df['yy']).sum/mean/std/count()以yy列为分组对xx列数据进行操作（类数据透视表）
+size计数时包含NaN值，而count不包含NaN值
+for name,group in df2.groupby(df2['sex']):print(name)print(group)分组展示全部数据
+
+按字典分组，分组前需要改index为dict1的格式
+dict1 = {'a':'one','A':'one','b':'two','B':'two'}
+xx.groupby(dict1).sum/mean/std/count()
+df.set_index(keys, drop=True, append=False, inplace=False, verify_integrity=False)
+设置索引和复合索引：drop:默认为true，表示是否删除列作为新索引/append：是否增加列到原来的索引上/inplace：是否创建一个新的dataframe
+df.reset_index(level=None, drop=False, inplace=False, col_level=0, col_fill='')重置索引为0开始
+drop=True则删除原索引
+
+按函数分组
+apply()将函数作用于DF中的每个行/列,一般用于新增字段来操作（运算分组等）
+df['total'] = df[['data1','data2']].apply(lambda x:x.sum(),axis=1)
+df.loc['total'] = df[['data1','data2']].apply(lambda x:x.sum(),axis=0) 
+
+map()是Series的函数，自身列做变换来操作（改内容格式）
+def jug(x):if pd.isnull(x):return 'unknow' if x>=0:return 'a'  else:return 'b'
+df[['xx']].gruopby(df['xx'].map(jug)).sum()
+
+applymap()用于DataFrame中的所有元素
+def add_A(x):return "A" + str(x)      df.applymap(add_A)
+
+聚合+分组统计
+df.groupby(['A','B'])['C'].agg({'MEAN':'mean', 'SUM':'sum'})某列不同运算，字典改名
+df.groupby(['A','B'])['C','D'].agg([('SUM','sum'),('MEAN','mean')])某列不同运算，列表改名，常用
+df.groupby(['A','B'])['C','D'].agg({'C':['sum','mean'],'D':'count'})不同列多种方法，字典改名
+
+
+加减乘除平方 最大最小平均求和  df.sort_values(['xx'],ascending=True/False)[-n:]某列从小到大(大到小)排列,倒取
+pd.isnull(df[])某列所有数返回是否有缺失值列表  df[pd.isnull(df[])]返回缺失的真实值（即打印索引和NaN） len一下看缺失值的个数
+df[pd.isnull(df[])=False]返回非缺失值列表
+df.fillna(df.mean)/dropna(axis=1)/dropna(axis=0,subset=[x,y])该行两个字段都为nan则都去掉
+例f = lambda x:x.fillna(x.mean())  df.groupby('xx').apply(f)
+
+df1.reset_index(drop=True)重新生成索引并替代原索引
+def内可以用return进行赋值
+
+
+数据透视表
+df.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='mean')默认平均值，可用aggfunc求和
+df.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='sum',margins='ALL')ALL表汇总

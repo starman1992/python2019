@@ -24,7 +24,7 @@ data17 = np.array_split(data14,3)#横切不均分array_split
 data18 = np.split(data14,(3,))#在位置3横切一刀
 data19 = np.split(data14,[1,3])#在位置1和3切分
 data20 = np.split(data14,2,axis=1)#纵切均分
-data21 = np.array_split(data14,3,axis=1)#纵切不均分
+data21 = np.array_split(data14,[1,3],axis=1)#纵切不均分
 
 data22 = data14.transpose((1,0))#转置  或用data14.T
 
@@ -55,6 +55,7 @@ cond = np.array([1,0,1])
 ##print(np.where(cond,data1,data3))#√选data1中的数，×选data2中的数
 ##print(np.where(data23>180,'优秀',\
 ##               np.where(data23<130,'不合格','合格')))
+print(data20,'\n',data21)
 
 
 

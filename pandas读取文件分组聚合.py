@@ -3,8 +3,8 @@ import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-##pd.read_csv(open('路径'))
-##pd.read_table(open('路径'),sep=',')
+##pd.read_csv('路径')
+##pd.read_table('路径',sep=',')
 ##pd.read_csv(open('路径'),index_col=['xx','yy'],names=['xx','yy'])#设置索引列,表头（如果没有表头则设置为header=None）
 ##pd.read_csv(open('路径'),skiprows=[0,5],nrows=2,usecols=['xx','yy'])#跳过第0,5行，显示2行和第xx.yy列
 ##pd.read_tabl(open('txt',sep='re'))
@@ -41,7 +41,7 @@ df2['year'] = df2['year'].astype(int)#把字符串转成float或者int
 ##sex_mean.plot(kind='bar',)
 ##plt.show()
 
-#按字典分组
+#按字典分组，分组前需要改index为dict1的格式
 ##dict1 = {'a':'one','A':'one','b':'two','B':'two'}
 ##xx.groupby(dict1).sum()
 
@@ -67,10 +67,60 @@ def top(x,n=5):
 ##f = lambda x:x.fillna(x.mean())
 ##df.groupby('sex').apply(f)
 #对数据中na的值进行分组填充
+def not_null_count(column):#全局看该字段缺失个数
+    column_null=pd.isnull(column)
+    null=column[column_null]
+    return len(null)
+
+def re_name(row):#全局中，单列内容改名
+    if pd.isnull(row['xxx']):
+        return "Unknown"
+    if row['xxx'] == 'a':
+        return "b"
+#row['new_name']= row.apply(rename,axis=1)新建列
 
 ##tips.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='sum')#默认平均值
 ##tips.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='sum',margins='ALL')#ALL表汇总
 
+##['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age',
+## 'SibSp', 'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked']
 
+data = pd.read_csv('titanic_train.csv')
+head = data.columns.tolist()
+##titanic_surv = data[data['Survived'] == 1]
+def re_name(age):
+    if pd.isnull(age):
+        return "unknown"
+    if age >= 18:
+        return "adult"
+    if age < 18:
+        return "youth"
+
+##new = data[["Survived"]].groupby(data['Age'].map(re_name)).mean()
+
+##print(new)
+##pclass_con = {1:'First',2:'Second',3:'Third'}
+##data = data.set_index('Pclass')
+##print(data['PassengerId'].groupby(pclass_con).count())
+
+##print(data['Embarked'].unique())
+##
+##age_labels = data["Age"].apply(re_name)
+##data["age_labels"] = age_labels
+####age_gruop_surv = data.pivot_table(index="age_labels",values=["Survived"])
+##age_gruop_surv = data[['Survived']].groupby(data['age_labels']).mean()#不多加个[]会比数据透视表少表头survived
+####print(titanic_surv)
+##print(age_gruop_surv)
+##def add_A(x):
+##    return "A" + str(x)
+##def slice_A(x):
+##    return float(x.split("A",1)[1])
+##age_gruop_surv_A = age_gruop_surv.applymap(add_A)
+##print(age_gruop_surv_A)
+##age_gruop_surv_slice_A = age_gruop_surv_A.applymap(slice_A)
+##print(age_gruop_surv_slice_A[['Survived']].applymap(lambda x : "%.3f"%x))
+
+##df=data.groupby(['Sex','Embarked'])['Fare','Age'].agg({'MEAN':'mean', 'SUM':'sum'})
+##print(df)
 
 
