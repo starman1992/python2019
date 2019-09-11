@@ -1,0 +1,135 @@
+anaconda镜像安装要安装到盘的根目录，且出现弹窗cmd不要差掉
+
+
+字典dict(keys:values)一个冒号为一个items：（无序除了sorted()，查增改删取）
+for i,j in dict 可遍历items
+dict.copy() 和 dict.copy.deepcopy()[这个需要import copy]
+注意pop之后返回的是value值,而不是一个key+value
+copy添加指针，deepcopy值复制
+增用update
+
+
+数组｛有序但不可变，不能增改删元素｝、列表[有序，查增改删取]
+list.sort()永久(字母大小)排序  sorted(list)临时（字母大小）排序  
+list.sort(reverse=True)永久（字母大小）倒序   list.reverse()永久倒序
+利用切片倒序 list[::-1]
+minmaxsumlen（）  [:]切片  
+for i in fs:   其中的i（变量）如果修改，不会修改fs中的数据，只会额外生成一个变量做额外操作
+i += 1
+
+流程控制：
+if-elif-else 判断
+name=input('your name:') 输入：
+while 循环：break 退出、continue 跳过
+
+文件：
+os.chdir('C:\\Users\\WXYZ\\Desktop')
+os.makedirs(folder_name,exist_ok=True)
+with open('XX.xx','r/w/a'（读写追加）) as f：(自动close)
+f=open('XX.xx','r'（打开方式）) f.close()
+f.read() 读完 f.readlines 读行 f.write('') 写
+
+类和对象：
+class A():
+	def __init__:
+
+继承（父类与子类）：
+class A():
+class B(A):
+子类可继承父类的功能（属性），子类可改写父类的同名功能
+在子类用super().__init__可免于父类功能被改写
+
+组合：
+mixin/base
+不要在一个类里面尝试定义所有类
+要善于利用组合扩展类
+
+BIF内建函数(builtin-function)
+issubclass(class,classinfo) 判断class是否是info的类
+isinstance(object,classinfo)  判断一个对象是否属于info这个类
+hasattr(object,name)   判断一个对象是否有指定的属性
+
+getattr(object,name[,default])   返回该对象的指定属性的值，如果没有该属性则返回default
+setattr(object,name[,value])   设置该对象的指定属性的值为value
+del(object,name)    删除该属性
+x = property(getsize,setsize,delsize)
+
+魔法函数(描述符——当你想在执行一个步骤的时候获得更加复杂一点或者多一点的行为时，比如当你访问一个属性，你想将此放入一个日志记录，最好的方案就是编写一个用于执行这些行为的特殊函数，然后指定它在属性访问时运行，这种函数的对象成为描述符）
+__init__   创建并设立初始值，除none不返回任何值
+__new__    创建并重新修改设定，可以返回值
+__del__    所有属性删除后才执行该属性
+算术运算的魔法方法
+
+
+__getattr__(self,name)    定义试图获取一个不存在的属性时的行为
+__getattribute__(self,name)   定义当被访问时的属性的行为
+__setattr__(self,name,value)    定义当一个属性被设置时的行为
+__delattr__(self,name)    定义当被删除时的行为
+__dict__   以字典的形式展现属性中的值
+
+如果对x赋值，触发__set__(self,instance,value）
+如果赋值后，访问x，触发__get(self,instance,owner)__
+
+容器类型协议(可变or不可变)
+__len__()   定义当被len()调用的行为（返回容器中元素个数）
+__getitem__()    定义获取容器中弘给指定元素的行为，相当于self[key]
+
+__setitem__()    定义设置容器中指定元素的行为，相当于self[key]=value
+delitem__()     定义删除容器中指定元素的行为，相当于del self[key]
+
+*arg表示任意多个无名参数，类型为tuple，**kwargs表示关键字参数，为dict，使用时需将*arg放在**kwargs之前，否则会有“SyntaxError: non-keyword arg after keyword arg”的语法错误
+
+
+当函数的参数不确定时，可以使用*args 和**kwargs，*args 没有key值，**kwargs有key值。
+
+
+__iter__(self)
+__next__(self)
+
+切片、生成器、迭代器、装饰器：
+list = (a + b for a in letter for b in num)
+
+
+模块（函数）：
+import  XXX/from XXX import 所需要的函数名（下面就可不用写模块名）/import XXX  as  xxx
+测试模块可def一个test()，并设置if __name__=='__main__': test()即自己运行时才可运行测试，别人加载时就不会运行测试函数
+文件夹可以封装成一个程序包，该文件夹下需要有__init__.py(可为空)的文件
+
+异常处理：try-except{多个或为空}-else-finally
+
+jason：
+dump(s)/load(s)  把dict转str/把str转dict  没有s需要一个指针参数来存入或读出，有s则仅仅只是转格式
+
+
+爬虫：
+import urllib.request as r
+r.urlopen  打开网页（下面有geturl[显示网址]、info[显示网址状态]、getcode[显示http状态200为ok]）
+f12里network下，name对应的method有get[接受]和post[处理]
+urllib.request.urlretrieve(img_addr,filename,None)
+
+代理：转成别人来访问，代替我的ip访问
+参数是一个字典｛类型：代理ip:端口号｝proxy_support = urllib.request.ProxyHandler({})
+定制一个openner：opener=urllib.request.build_opener(proxy_support)
+安装并调用opener:urllib.request.install_opener(opener)    opener.urlopen(url)
+
+正则表达式re：（检查一个字符串是否与某种模式匹配）compile编译后，可直接xxx.search等
+re.search.group(0)    返回匹配字符
+search和match都是匹配一次
+re.search(r'','','flag')加r不用考虑字符转义问题但是字母转义还是不变,\d表0-9数字，也可以用[0-9[0123456789][a-z][aeiouAEIOU]
+flag re.I忽略大小写  re.M 把^用作把每行当作开始  re.S .可表示包括换行符
+re.match()开头搜索  .string待匹配文本  .re用的正则   .pos找的开始位置   .endpos找的结束位置
+re.findall()返回所有匹配字符
+re.split(pattern,string,maxsplit,flags)按匹配结果进行分割返回子串
+re.finditer()返回匹配结果的迭代类型，每个迭代元素是match对象  for m in re.finditer(pattern,string):if m:print(m.group(0))
+re.sub(pattern,repl,string,count,flags)替代
+re.search.span表示范围，group表示通过正则加括号表示的一个在原文本上的组，(x.lastindex)可以看共多少组
+.start()  .end()  .span()返回start和end匹配的开始和结束  
+{n}表示前一个被字符只重复3次，{x,y}表示一个字符被重复x-y次
+^(同\A)\d必以此开头     []里加^为取反（如果[^a-z]则为取反取大写）  \d$(同\Z)必以此结尾  
+\bxxx\b匹配单词(字母数字下横线)边界  \B以非符号为边界   \w匹配单词（包括中文和下横线）  \W取反
+\s匹配[\t(tab)\n(换行)\r（回车）\f（换页）\v（垂直）]
+(?P...)分组匹配，返回一组对应值，用groupit可以变成字典，如找身份证前六位re.search('(?P<province>\d{3})(?P<city>\d{3},s)   x.groupdict()
+^?\d+$整数（有可能是负数）    ^[1-9][0-9]*$ ^[0-9]*[1-9][0-9]*$正整数    [\u4e00-\u9fa5]匹配中文字符
+\d{3}-\d{8}|\d{4}-\d{7}国内电话
+^([1-9]?\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}([1-9]?\d|1\d{2}|2[0-4]\d|25[0-5]))$  ip号
+re.xxx.group(0)返回所有匹配，（1）返回第1组
