@@ -1,6 +1,6 @@
-numpy as np（矩阵的基本变换操作）
+=================numpy as np（矩阵的基本变换操作）=====================
 切片、分割、变换、筛选、复制：
-data=np.array([])赋值ndarray格式，dtype查看格式
+data=np.array([])赋值ndarray格式，dtype查看格式，shape看形状，ndim维度
 行列切片[行，列]切片后可坐独立筛选
 np.hstack/vstack行/列对接拼(相当于concatenate(axis=0/1)  np.hsplit/split(data,n)纵/横切平均分割三份（或后面加axis=1也是纵切）  np.hsplit/split(data,(x,y,z))纵/横切指定位置
 布尔筛选data[data==x]，data[data[:,1]==25]返回匹配的真实值,可用&|!<>
@@ -9,26 +9,31 @@ np.astype(float/int/string)转类型/ravel拉平矩阵/floor向下取整数/T转置/reshape(3,
 b = a同指针复制  c=a.view()浅复制（指针不同值不独立） d=a.copy(指针不同值独立)
 
 创造、赋值：
-np.arange(n).reshape(行,列)造数列   data.shape/size/ndim/dtype.name  形状、大小、维度、格式
+np.arange(n).reshape(行,列)造数列   data.shape/size/ndim/dtype.name  形状、大小、维度、格式  resize（）改变原数组
 np.zeros[(行,列)]/ones[(行,列)]/empty[(行，列),数据类型]/eye[(规模,k=n,数据类型)]  造0，1，空，对角矩阵（n大于0上方第n条线为1，n小于0下方第n条线为1）
 np.random.random/randint(start,end,step)/randn(行,列)/normal（均值，方差，size=（行，列））/uniform（start，end，size=（行，列））/poisson（lambda，size=（行，列））生成随机数（01内、整数、标准正态分布、正态分布、均匀分布、泊松分布）
-np.linespace(0,100,200)在0-100中取间隔相等的200个数
+np.linspace(0,100,200,endpoint=False)等差数列,在0-100中取间隔相等的200个数,endpoint表示尾数是否在数组内，默认在True
+swapaxis（）改变行列维度/gradient计算梯度值，即元素内部的梯度（后-前）/n
 np.tile(a,(x,y))行扩展x倍，y扩展y倍
 
 运算：
 np数列间的 加减乘除平方   data.dot(data)或np.dot(data,data)矩阵点乘
-np.min/max/sum(axis=0/1行列)/mean/std/cumsum累积每行求和/unique(去重返回所有唯一值)/sort
+np.min/max/sum(axis=0/1行列)/ptp(最大和最小的差)/median(中位数)/
+mean/std/var/cumsum累积每行求和/unique(去重返回所有唯一值)/sort/average(a,weights=None)加权平均
 np.sin/cos/tan/exp/sqrt/abs/modf(个位+小数第一位)
 np.data.argmax(axis=0)每列最大值的位置
 data[np.data.argmax(axis=0),range(data.shape[1])]先找列最大值位置，再找位置对应的值
 np.argsort(data)数列中从小到大的位置
 data[np.argsort](data)]数列从小到大排序
-permutation(随机行间排序行内不变)/shuffle（永久随机行间排序行内不变无返回值）
+permutation(随机行间排序行内不变，不改变原数组)/shuffle（永久随机行间排序行内不变无返回值）
 
 
-pandas as pd
-pd.read_csv('路径').head/tail(n)取头/尾n行/columns取表头/shape显示规模/loc[n]取第n行所有数字/[列名]取列
+=================pandas as pd（excel的变换主要是dataframe的构造和变化）=================
+pd.read_csv('路径').head/tail(n)取头/尾n行/columns取表头/shape显示规模
+iloc[:n]通过位置取索引/loc[:n]通过标签取索引/ix[:n](都是整型类loc，混合类loc和iloc合体)[列名]取列
+df.index.get_loc('aa')返回aa所在的行号
 df.columns.tolist()把表头变为数列
+df.[''].str.len()/contains/lower、upper/replace/split对字符串进行操作之后的进行筛选
 
 DataFrame({}).append({},ignore_index=True)忽略索引值新增行
 df['xx']=[]新增并赋值列   df.loc['yy']=[]新增并赋值行
@@ -67,7 +72,7 @@ df.groupby(['A','B'])['C','D'].agg({'C':['sum','mean'],'D':'count'})不同列多种方
 加减乘除平方 最大最小平均求和  df.sort_values(['xx'],ascending=True/False)[-n:]某列从小到大(大到小)排列,倒取
 pd.isnull(df[])某列所有数返回是否有缺失值列表  df[pd.isnull(df[])]返回缺失的真实值（即打印索引和NaN） len一下看缺失值的个数
 df[pd.isnull(df[])=False]返回非缺失值列表
-df.fillna(df.mean)/dropna(axis=1)/dropna(axis=0,subset=[x,y])该行两个字段都为nan则都去掉
+df.fillna(df.mean)/dropna(axis=1,how='all')默认是any，all表示该列全为nan的时候才删除/dropna(axis=0,subset=[x,y])该行两个字段都为nan则都去掉
 例f = lambda x:x.fillna(x.mean())  df.groupby('xx').apply(f)
 
 df1.reset_index(drop=True)重新生成索引并替代原索引
@@ -77,3 +82,125 @@ def内可以用return进行赋值
 数据透视表
 df.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='mean')默认平均值，可用aggfunc求和
 df.pivot_table(values='值',index='行索引',columns='列索引',aggfunc='sum',margins='ALL')ALL表汇总
+
+=================时间序列datetime库=================
+序列的操作
+ndarray==>series==>dataframe(sr.values就是ndarray)
+sr=pd.Series(df['xx'],index=df['yy']) 
+sr[['aa']]、sr[5:10]取某个索引对应的值、取对应行数值
+sr.reindex(sorted(sr.index.tolist))按index排序
+sr.sort_index()  sr.sort_values  按键或按值小到大排序
+np.sin(sr)/max(sr)/add(sr1,sr2)(值相加)
+sr[sr>50]
+sr['aa':'zz']/sr.loc['aa','z']切片/新增并赋值列
+
+时间序列的构造
+a=datetime.date(2019,7,24)/time(9,10,34)   a,a.year,a.month,a.day,a.hour,a.minute,a.second  
+datetime.datetime.now()今日+datetime.timedelta(10)默认天的时间间隔
+a.strftime('%Y/%m/%d')  datetime.datetime.strptime(f,'%Y-%m-%d')日期转字符串
+a.strftime('%W')第n周 
+sr['date']=pd.to_datetime(sr['date'])转为datetime格式
+pd.date_range('2019/7/1','2019/7/20',freq='D')#构造时间，设定频率
+D自然日  B工作日  M每月最后一个日历日  BM每月最后一个工作日
+H每小时  T每分钟  S每秒  A-JAN,A-FEB指定月份最后一个日历日
+pd.date_range(start='2019/7/1',periods=20)#向后构造时间，设定个数
+pd.date_range(end='2019/7/1',periods=20)#向前构造时间，设定个数
+pd.date_range(start='2019/7/1 15:11:34',periods=20,normalize=True)#去掉时间
+pd.date_range(start='2019/7/1',periods=20,freq='2H20min38S')
+
+时间序列的操作
+s1=pd.Series(np.arange(20),index=index1)
+s1.shift(2)#值往下调(有NaN)
+s1.shift(2,freq='D')#日期按日历日往上调2天
+s1.shift(2,freq='M')#日期按日历月往上调2个月
+
+重采样（分组运算）
+s1.resample('M').mean()#改按月采样（默认月末最后一天）
+s1.resample('5D',closed='right',label='right').mean()#改5天采样，从右数
+s1.resample('5D',closed='left',label='left').mean()#改5天采样，从左数
+s1.resample('5D',closed='right',label='right',loffset='-1D').mean()#改5天采样，从右数，时间标签往前1天
+s1.resample('D').ffill(7)#对于零散型的序列，进行升采样填充7个缺失值
+
+=================画图matplotlib库==========================
+plt.subplot(3,1,1)#定位图片显示位置(行，列，当前区域位置)
+pyl.plot(x,y,'oy')#plot(x轴数据，y轴数据，展现形式) 默认折线图，o是散点图
+plt.plot(横,纵,linestyle=':',color='b',linewidth=5,marker='.')
+linestyle:-,-.,.,--  color:r,g,w,b   marker突出线上的点   alpha透明度  grid网格
+c-cyan-青色  r-red  m-magente-品红  g-green  b-blue  y-yellow  k-black  w-white
+plt.bar([数字设置横轴刻度位 非名字],color='blue',alpha=0.7,data)
+s--方形  h--六角形  H--六角形  *--星形+--加号  x--x型  d--菱形  D--菱形  p--五角形
+plt.barh()#横向直方图
+plt.grid(color,linestyle,axis='y')#默认y轴
+plt.bar(横轴离0距离,柱高,bottom=data1,label='')#堆积图，设置最下方数据源
+plt.bar(横轴离0距离,柱高+3,data2,width=3,label='')#横排并列，设置条形宽度，label设置图例
+plt.legend(loc='upper left')图例摆放位置 best/upper right/lower left/lower right/right/center left/center right/lower center/upper center
+df.ix[0,['aa','bb']].values设置柱高
+plt.scatter(x,y)散点图
+plt.polar(θ,r)极坐标图
+plt.pie(data,explode,labels)  data为数据，explode为突出值（0，0.1，0，0），labels为标签,autopct='%1.1f%%'表示显示百分号的方式,shadow=False,startanle表示饼图起始角度
+plt.axis('equal')使得饼图为正圆
+plt.psd(x,nfft=256,pad_to,fs)功率谱密度图
+plt.specgram(x,nfft=256,pad_to,F)谱图
+plt.cohere(x,y,nfft=256,fs)x-y的相关性函数
+plt.step(x,y,where)步阶图
+plt.boxplot盒图，阴阳柱图，可画dataframe，一组数据的盒图，多类数据组成多个盒图
+plt.hist(数据,bins=10,range(4,5))频数分布直方图(x轴参数范围，y轴参数个数,直方组数,取某一范围的数)
+
+plt.contour(x,y,z,n)等值图
+plt.vlines()垂直图
+plt.stem(x,y,linefmt,markerfmt)柴火图
+plt.plot_data(数据日期)
+
+plt.title('aa')/xlabel('bb')/ylabel('cc')/xlim(0,20)/ylim(0,40)
+plt.figure(figsize=(10,6),dpi=80)#设置画图域长宽，清晰度
+list([横轴])[::10]#修改横轴步长
+plt.tick_params(bottom='off',top="off",left="off",right="off")关闭刻度尺的小线段
+plt.xticks(range(2,26,2)[::10],_xtick_labels[::10],rotation=45,fontproperties=my_font)#修改横轴名字,旋转横坐标，改中文格式
+my_font = font_manager.FontProperties(fname="C:\Windows\Fonts\STSONG.TTF")
+dark_blue=(0/255,107/255,164/255)
+plt.text(2019,20,'Men')在(2019,20)这个地方添加一个文本
+
+=================结构化多绘图网格seaborn库as sns=================
+sns.set_style("whitegrid")背景dark/white/darkgrid/ticks(多了刻度短线)
+sns.despine(offset=100,left=True)去掉上右边框,距离下边,去掉纵轴线
+用with sns.axes_style(''):使其下都是风格
+sns.set_context('paper',font_scale=1.5,rc={'lines.linewidth':2.5})
+#纸张大小paper/talk/poster/notebook  字体大小  线条粗细
+color_palette()  调色板，6个默认主题deep,muted,pastel,bright,dark,colorblind  set_palette()
+snspalplot(palette=sns.color_palette('hls',n))  hls的颜色空间，n代表颜色个数
+sns.hls_palette(8,l=.1,s=.9) l-lightness代表亮度，s-saturation代表饱和度
+sns.color_palette('paired',8)  成对调取调色板  sns.color_palette('Blues')Blues_r连续色浅到深(深到浅)
+sns.color_palette('cubehelix',8)色调线性区别变换
+sns.cubehelix_palette(8,start=0.5,rot=-.75)指定颜色域区间
+plt.plot([0,1],[0,1],sns.xkcd_rgb['pale red'],lw=3)  用xkcd来调取颜色medium green/denim blue/windows blue/amber/greyish/faded green/dusty purple
+sns.xkcd_palette(['pale red','amber'])
+sns.light_palette('green')dark_palette指定浅到深(深到浅)
+sns.light_palette((210,90,60),input='husl')自己调参数
+
+sns.distplot(x,bins=20,fit=stats.gamma,kde=False)直方图，分成20份，指定统计指标，不做
+sns.jointplot(x=,y=,data=,kind='hex',color=)数据量小为散点图，数据大用hex蜂窝图，可看横纵的分布
+sns.load_dataset('titanic')导入数据集
+sns.pairplot(sns.load_dataset('iris'))两两散点对比图，斜线为直方图表示该字段本身分布
+sns.regplot(x=,y=,data=)可用来做回归关系（lmplot有更高级功能）
+sns.regplot(x='size',y='tip',data=tips,x_jitter=.05)当x为离散的时候为了更好做回归分析，在x加上一个小范围的波动使更加准确
+sns.stripplot(x='day',y='total_bill',data=tips,jitter=False)默认jitter浮动为true
+sns.swarmplot(x='day',y='total_bill',hue='sex',data=tips,color=,alpha=)按sex作颜色分类的散点图
+sns.boxplot(x='day',y='total_bill',hue='sex',data=tips,orient='h')盒图+离群点(N=1.5iqr  >q3+n或<q1-n为离群点) orient是h表示横着画
+sns.violinplot(x='day',y='total_bill',hue='sex',data=tips,split=True)小提琴图,以sex为颜色区分，是否切片对比，默认为false
+sns.barplot(x='sex',y='survived',hue='class',data=titanic)柱状图
+sns.pointplot(x='class',y='survived',hue='sex',data=titanic,palette={'male':'g','female':'m'},markers=['^','o'],linestyles=['-','-.'])
+默认图  点图是strip
+sns.factorplot(x='day',y='total_bill',hue='smoker',data=tips,kind='bar')默认折线图
+sns.factorplot(x='day',y='total_bill',hue='smoker',col='time',data=tips,kind='swarm')按time指定分图
+kind:point,bar,box,count频次,violin,,strip,swarm,reg回归
+size高,aspect纵横比,orient v/h横竖方向 color legend图例 hue分组 palette调色板
+
+
+
+
+
+
+
+
+
+
