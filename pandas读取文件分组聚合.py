@@ -58,6 +58,7 @@ df2['year'] = df2['year'].astype(int)#把字符串转成float或者int
 ###对mean进行取名
 ##df4=df2.groupby(['sex'],as_index=False)['cash','bill'].agg({'cash':['sum','mean'],'bill':'mean'})
 ###对不同数据列分别做不同操作,分组不作为索引
+##df4.plot(kind='bar')
 ##print(df4)
 
 #分组运算

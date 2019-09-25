@@ -5,8 +5,12 @@ data=np.array([])¸³Öµndarray¸ñÊ½£¬dtype²é¿´¸ñÊ½£¬shape¿´ĞÎ×´£¬ndimÎ¬¶È
 np.hstack/vstackĞĞ/ÁĞ¶Ô½ÓÆ´(Ïàµ±ÓÚconcatenate(axis=0/1)  np.hsplit/split(data,n)×İ/ºáÇĞÆ½¾ù·Ö¸îÈı·İ£¨»òºóÃæ¼Óaxis=1Ò²ÊÇ×İÇĞ£©  np.hsplit/split(data,(x,y,z))×İ/ºáÇĞÖ¸¶¨Î»ÖÃ
 ²¼¶ûÉ¸Ñ¡data[data==x]£¬data[data[:,1]==25]·µ»ØÆ¥ÅäµÄÕæÊµÖµ,¿ÉÓÃ&|!<>
 np.where(cond,true_data,false_data)¡ÌÑ¡data1ÖĞµÄÖµ£¬¡ÁÑ¡data2ÖĞµÄÖµ£¬¿ÉÇ¶Ì×
-np.astype(float/int/string)×ªÀàĞÍ/ravelÀ­Æ½¾ØÕó/floorÏòÏÂÈ¡ÕûÊı/T×ªÖÃ/reshape(3,-1)×Ô¶¯¼ÆËãÁĞÄ¬ÈÏ³ıÊı
+np.fill(2.5)ËùÓĞÔªËØÌî³äÎª2.5£¬Èç¹ûÔ­À´ÊÇÕûĞÍÔòÌî³äÎª2£¬ĞèÒªÓÃastypeÀ´×ª¸ñÊ½
+np.astype('float'/'int'/'string')×ªÀàĞÍ/ravelÀ­Æ½¾ØÕó/floorÏòÏÂÈ¡ÕûÊı/T×ªÖÃ/reshape(3,-1)×Ô¶¯¼ÆËãÁĞÄ¬ÈÏ³ıÊı
 b = aÍ¬Ö¸Õë¸´ÖÆ  c=a.view()Ç³¸´ÖÆ£¨Ö¸Õë²»Í¬Öµ²»¶ÀÁ¢£© d=a.copy(Ö¸Õë²»Í¬Öµ¶ÀÁ¢)
+a[(0,1,2,3,4),(0,1,2,3,4)]È¡¶Ô½ÇÏß
+con=np.array([0,1,1,0,1],dtype=bool)
+np.asarray(a,dtype=float)
 
 ´´Ôì¡¢¸³Öµ£º
 np.arange(n).reshape(ĞĞ,ÁĞ)ÔìÊıÁĞ   data.shape/size/ndim/dtype.name  ĞÎ×´¡¢´óĞ¡¡¢Î¬¶È¡¢¸ñÊ½  resize£¨£©¸Ä±äÔ­Êı×é
@@ -21,7 +25,7 @@ npÊıÁĞ¼äµÄ ¼Ó¼õ³Ë³ıÆ½·½   data.dot(data)»ònp.dot(data,data)¾ØÕóµã³Ë
 np.min/max/sum(axis=0/1ĞĞÁĞ)/ptp(×î´óºÍ×îĞ¡µÄ²î)/median(ÖĞÎ»Êı)/
 mean/std/var/cumsumÀÛ»ıÃ¿ĞĞÇóºÍ/unique(È¥ÖØ·µ»ØËùÓĞÎ¨Ò»Öµ)/sort/average(a,weights=None)¼ÓÈ¨Æ½¾ù
 np.sin/cos/tan/exp/sqrt/abs/modf(¸öÎ»+Ğ¡ÊıµÚÒ»Î»)
-np.data.argmax(axis=0)Ã¿ÁĞ×î´óÖµµÄÎ»ÖÃ
+np.idxmax(axis=0)Ã¿ÁĞ×î´óÖµµÄÎ»ÖÃ£¨np.argmax()Ò²¿ÉÒÔ£©
 data[np.data.argmax(axis=0),range(data.shape[1])]ÏÈÕÒÁĞ×î´óÖµÎ»ÖÃ£¬ÔÙÕÒÎ»ÖÃ¶ÔÓ¦µÄÖµ
 np.argsort(data)ÊıÁĞÖĞ´ÓĞ¡µ½´óµÄÎ»ÖÃ
 data[np.argsort](data)]ÊıÁĞ´ÓĞ¡µ½´óÅÅĞò
@@ -30,10 +34,19 @@ permutation(Ëæ»úĞĞ¼äÅÅĞòĞĞÄÚ²»±ä£¬²»¸Ä±äÔ­Êı×é)/shuffle£¨ÓÀ¾ÃËæ»úĞĞ¼äÅÅĞòĞĞÄÚ²»±
 
 =================pandas as pd£¨excelµÄ±ä»»Ö÷ÒªÊÇdataframeµÄ¹¹ÔìºÍ±ä»¯£©=================
 pd.read_csv('Â·¾¶').head/tail(n)È¡Í·/Î²nĞĞ/columnsÈ¡±íÍ·/shapeÏÔÊ¾¹æÄ£
+pd.read_excel('Â·¾¶',index_col=[0])/df.set_index(["Column"], inplace=True)ÉèÄ³ÁĞÎªindex
+df[['xx','yy']]È¡Ä³Á½ÁĞ×é³Édf
 iloc[:n]Í¨¹ıÎ»ÖÃÈ¡Ë÷Òı/loc[:n]Í¨¹ı±êÇ©È¡Ë÷Òı/ix[:n](¶¼ÊÇÕûĞÍÀàloc£¬»ìºÏÀàlocºÍilocºÏÌå)[ÁĞÃû]È¡ÁĞ
 df.index.get_loc('aa')·µ»ØaaËùÔÚµÄĞĞºÅ
 df.columns.tolist()°Ñ±íÍ·±äÎªÊıÁĞ
-df.[''].str.len()/contains/lower¡¢upper/replace/split¶Ô×Ö·û´®½øĞĞ²Ù×÷Ö®ºóµÄ½øĞĞÉ¸Ñ¡
+df[df.xx=='xx']É¸Ñ¡df[df['aa']=='xx']
+df.[''].str.len()/contains/lower¡¢upper/replace(['Aa','Bb'],['aa','bb'],inplace=True)/split¶Ô×Ö·û´®½øĞĞ²Ù×÷Ö®ºóµÄ½øĞĞÉ¸Ñ¡
+df[''].value_counts()Êı¸ÃÁĞÃ¿¸ö×Ö·û³öÏÖÁË¶àÉÙ´Î
+df.drop('xyz',axis=1)
+df1.reset_index(drop=True)ÖØĞÂÉú³ÉË÷Òı²¢Ìæ´úÔ­Ë÷Òı
+defÄÚ¿ÉÒÔÓÃreturn½øĞĞ¸³Öµ
+df.index.names=['xx','yy']¶Ô¶àÎ¬Ë÷ÒıÀà±ğ½øĞĞÃüÃûdf.swaplevel('xx','yy')µ÷»»Ë÷ÒıÀà±ğÎ»ÖÃ(¶àÎ¬Ë÷ÒıµÄÃ¿¸öË÷Òı¶¼ÊÇÔª×é)
+df.sort_index()
 
 DataFrame({}).append({},ignore_index=True)ºöÂÔË÷ÒıÖµĞÂÔöĞĞ
 df['xx']=[]ĞÂÔö²¢¸³ÖµÁĞ   df.loc['yy']=[]ĞÂÔö²¢¸³ÖµĞĞ
@@ -69,19 +82,24 @@ df.groupby(['A','B'])['C','D'].agg([('SUM','sum'),('MEAN','mean')])Ä³ÁĞ²»Í¬ÔËËã£
 df.groupby(['A','B'])['C','D'].agg({'C':['sum','mean'],'D':'count'})²»Í¬ÁĞ¶àÖÖ·½·¨£¬×Öµä¸ÄÃû
 
 
-¼Ó¼õ³Ë³ıÆ½·½ ×î´ó×îĞ¡Æ½¾ùÇóºÍ  df.sort_values(['xx'],ascending=True/False)[-n:]Ä³ÁĞ´ÓĞ¡µ½´ó(´óµ½Ğ¡)ÅÅÁĞ,µ¹È¡
+¼Ó¼õ³Ë³ıÆ½·½ ×î´ó×îĞ¡Æ½¾ùÇóºÍ  
+df.sort_values(['xx'],ascending=True/False)[-n:]Ä³ÁĞ´ÓĞ¡µ½´ó(´óµ½Ğ¡)ÅÅÁĞ,µ¹È¡
+df.sample(frac=1)´òÂÒË³Ğò
+pd.merge(df1,df2,how='inner',on='xx')°´xxÁĞ½øĞĞÄÚÁ¬½Ó
+pd.concat([df1,df2,df3],axis=0)Á¬½Ó¶à¸öÊı×é
 pd.isnull(df[])Ä³ÁĞËùÓĞÊı·µ»ØÊÇ·ñÓĞÈ±Ê§ÖµÁĞ±í  df[pd.isnull(df[])]·µ»ØÈ±Ê§µÄÕæÊµÖµ£¨¼´´òÓ¡Ë÷ÒıºÍNaN£© lenÒ»ÏÂ¿´È±Ê§ÖµµÄ¸öÊı
 df[pd.isnull(df[])=False]·µ»Ø·ÇÈ±Ê§ÖµÁĞ±í
 df.fillna(df.mean)/dropna(axis=1,how='all')Ä¬ÈÏÊÇany£¬all±íÊ¾¸ÃÁĞÈ«ÎªnanµÄÊ±ºò²ÅÉ¾³ı/dropna(axis=0,subset=[x,y])¸ÃĞĞÁ½¸ö×Ö¶Î¶¼ÎªnanÔò¶¼È¥µô
 Àıf = lambda x:x.fillna(x.mean())  df.groupby('xx').apply(f)
 
-df1.reset_index(drop=True)ÖØĞÂÉú³ÉË÷Òı²¢Ìæ´úÔ­Ë÷Òı
-defÄÚ¿ÉÒÔÓÃreturn½øĞĞ¸³Öµ
-
-
 Êı¾İÍ¸ÊÓ±í
 df.pivot_table(values='Öµ',index='ĞĞË÷Òı',columns='ÁĞË÷Òı',aggfunc='mean')Ä¬ÈÏÆ½¾ùÖµ£¬¿ÉÓÃaggfuncÇóºÍ
 df.pivot_table(values='Öµ',index='ĞĞË÷Òı',columns='ÁĞË÷Òı',aggfunc='sum',margins='ALL')ALL±í»ã×Ü
+
+ÀëÉ¢»¯´¦Àí
+df['ÆÀ·ÖµÈ¼¶']=pd.cut(df['ÆÀ·Ö'],[0,3,5,7,9,10],labels=['E','D','C','B','A'])
+bins=np.percentile(df['Í¶Æ±ÈËÊı'],[0,20,40,60,80,100])
+df['ÈÈÃÅ³Ì¶È']=pd.cut(df['Í¶Æ±ÈËÊı'],bins,labels=['E','D','C','B','A'])
 
 =================Ê±¼äĞòÁĞdatetime¿â=================
 ĞòÁĞµÄ²Ù×÷
@@ -137,14 +155,15 @@ plt.legend(loc='upper left')Í¼Àı°Ú·ÅÎ»ÖÃ best/upper right/lower left/lower right
 df.ix[0,['aa','bb']].valuesÉèÖÃÖù¸ß
 plt.scatter(x,y)É¢µãÍ¼
 plt.polar(¦È,r)¼«×ø±êÍ¼
-plt.pie(data,explode,labels)  dataÎªÊı¾İ£¬explodeÎªÍ»³öÖµ£¨0£¬0.1£¬0£¬0£©£¬labelsÎª±êÇ©,autopct='%1.1f%%'±íÊ¾ÏÔÊ¾°Ù·ÖºÅµÄ·½Ê½,shadow=False,startanle±íÊ¾±ıÍ¼ÆğÊ¼½Ç¶È
+plt.pie(data,explode,labels,autopct,shadow,labeldistance)  
+dataÎªÊı¾İ£¬explodeÎªÍ»³öÖµ£¨0£¬0.1£¬0£¬0£©£¬labelsÎª±êÇ©,autopct='%1.1f%%'±íÊ¾ÏÔÊ¾°Ù·ÖºÅµÄ·½Ê½,shadow=False,startanle±íÊ¾±ıÍ¼ÆğÊ¼½Ç¶È,labeldistance±íÊ¾°ë¾¶
 plt.axis('equal')Ê¹µÃ±ıÍ¼ÎªÕıÔ²
 plt.psd(x,nfft=256,pad_to,fs)¹¦ÂÊÆ×ÃÜ¶ÈÍ¼
 plt.specgram(x,nfft=256,pad_to,F)Æ×Í¼
 plt.cohere(x,y,nfft=256,fs)x-yµÄÏà¹ØĞÔº¯Êı
 plt.step(x,y,where)²½½×Í¼
 plt.boxplotºĞÍ¼£¬ÒõÑôÖùÍ¼£¬¿É»­dataframe£¬Ò»×éÊı¾İµÄºĞÍ¼£¬¶àÀàÊı¾İ×é³É¶à¸öºĞÍ¼
-plt.hist(Êı¾İ,bins=10,range(4,5))ÆµÊı·Ö²¼Ö±·½Í¼(xÖá²ÎÊı·¶Î§£¬yÖá²ÎÊı¸öÊı,Ö±·½×éÊı,È¡Ä³Ò»·¶Î§µÄÊı)
+plt.hist(Êı¾İ,bins=10,range(4,5))ÆµÊı·Ö²¼Ö±·½Í¼(xÖá²ÎÊı·¶Î§£¬yÖá²ÎÊı¸öÊı,Ö±·½×éÊı,È¡Ä³Ò»·¶Î§µÄÊı,normedÈ¡1±äÆµÂÊÖ±·½Í¼)
 
 plt.contour(x,y,z,n)µÈÖµÍ¼
 plt.vlines()´¹Ö±Í¼
@@ -156,7 +175,11 @@ plt.figure(figsize=(10,6),dpi=80)#ÉèÖÃ»­Í¼Óò³¤¿í£¬ÇåÎú¶È
 list([ºáÖá])[::10]#ĞŞ¸ÄºáÖá²½³¤
 plt.tick_params(bottom='off',top="off",left="off",right="off")¹Ø±Õ¿Ì¶È³ßµÄĞ¡Ïß¶Î
 plt.xticks(range(2,26,2)[::10],_xtick_labels[::10],rotation=45,fontproperties=my_font)#ĞŞ¸ÄºáÖáÃû×Ö,Ğı×ªºá×ø±ê£¬¸ÄÖĞÎÄ¸ñÊ½
-my_font = font_manager.FontProperties(fname="C:\Windows\Fonts\STSONG.TTF")
+
+×ÖÌåmy_font = font_manager.FontProperties(fname="C:\Windows\Fonts\STSONG.TTF")
+×ÖÌåplt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus']=False
+
 dark_blue=(0/255,107/255,164/255)
 plt.text(2019,20,'Men')ÔÚ(2019,20)Õâ¸öµØ·½Ìí¼ÓÒ»¸öÎÄ±¾
 
@@ -195,7 +218,14 @@ sns.factorplot(x='day',y='total_bill',hue='smoker',col='time',data=tips,kind='sw
 kind:point,bar,box,countÆµ´Î,violin,,strip,swarm,reg»Ø¹é
 size¸ß,aspect×İºá±È,orient v/hºáÊú·½Ïò color legendÍ¼Àı hue·Ö×é paletteµ÷É«°å
 
+=================¾ö²ßÊ÷=================
+Í¨¹ıÌØÕ÷ÅĞ¶ÏÊı¾İ¼¯½á¹û
+ÓÃ-¡ÆPi*(log2)Pi¼ÆËãÄ³·ÖÀà·½·¨µÄÏµÍ³ìØÖµ£¬Ä³·½·¨µÄÏµÍ³ìØÖµ£¬ÏµÍ³ìØÖµ·¶Î§0-1£¬Îª¸Ã·ÖÀàÏÂ¸÷ÌØÕ÷¸ÅÂÊµÄìØÖµµÄ×ÜºÍ
+¸Ã·ÖÀàÏÂ¸÷ÌØÕ÷¸ÅÂÊµÄìØÖµ£¬Pi*(log2)Pi·¶Î§0-0.5
+ID3£¨ĞÅÏ¢ÔöÒæ£©Ëã·¨Á÷³Ì£º¼ÆËãÎ´·ÖÀàÏµÍ³ìØ£¨½á¹ûÎª0ºÍ1£©-->¼ÆËãÄ³·ÖÀà·½·¨ÏÂ²»Í¬ÌØÕ÷ABCµÄÌØÕ÷ìØ£¨ÌØÕ÷AÏÂ0ºÍ1£¬BÏÂ0ºÍ1£¬CÏÂ0ºÍ1£©£¬ÔÙ¸ù¾İ¸ÃÌØÕ÷µÄ·¢Éú¸ÅÂÊ¼ÓÈ¨Æ½¾ù¼ÆËãÏµÍ³ìØ¡ª¡ªĞÅÏ¢ìØÎªÎ´·ÖÀàºÍ·ÖÀàºóµÄ²îÖµ£¬ĞÅÏ¢ìØÔ½´ó·ÖÀàÔ½ºÃ
 
+Ô¤¼ôÖ¦£ºÏŞÖÆÉî¶È¡¢ÏŞÖÆÒ¶×Ó½Úµã¸öÊı¡¢ÏŞÖÆÒ¶×Ó½ÚµãÑù±¾Êı£¨Ä³·ÖÀàÌØÕ÷Ñù±¾Ğ¡ÓÚx²»ÔÙÍùÏÂ·ÖÀà£©¡¢ĞÅÏ¢ÔöÒæãĞÖµ£¨×îÓÅ·ÖÀàĞ¡ÓÚxÔò²»ÔÙÍùÏÂ·ÖÀà£©
+ºó¼ôÖ¦£ºÍ¨¹ıÒ»¶¨µÄºâÁ¿£¨ËğÊ§º¯ÊıC(T)ÓÃìØ£¨»ò»ùÄáÏµÊı£©³ËÒ¶×Ó½ÚµãÊı£¬ËğÊ§º¯ÊıÔÙ¼Ó¦Á*Ò¶×Ó½ÚµãÊıÀ´ÏŞÖÆ×ÜÒ¶×Ó½ÚµãÊı
 
 
 
